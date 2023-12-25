@@ -1,6 +1,6 @@
 <template>
   <RouterView />
-  <tab-bar></tab-bar>
+  <tab-bar v-if="!$route.meta.hideTabBar" />
 </template>
 
 <script setup>
