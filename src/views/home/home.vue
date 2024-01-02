@@ -19,7 +19,7 @@ import HomeSearchBox from "./cpns/home-search-box.vue"
 import HomeCategories from "./cpns/home-categories.vue"
 import HomeContent from "./cpns/home-content.vue"
 import useHomeStore from "../../stores/modules/home.js";
-import useScroll from "@/hook/useScroll";
+import useScroll from "@/hooks/useScroll";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 const homeStore = useHomeStore()
