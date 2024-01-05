@@ -22,6 +22,7 @@
     "@vant/auto-import-resolver": "^1.0.2",
     "@vitejs/plugin-vue": "^4.5.2",
     "less": "^4.2.0",
+    "postcss-px-to-viewport": "^1.1.1",
     "unplugin-vue-components": "^0.26.0",
     "vite": "^5.0.10"
   }

@@ -87,10 +87,10 @@ const swipeGroupItemClick = (key, value) => {
       swipeRef.value.swipeTo(0)
       break;
     case "4":
-      swipeRef.value.swipeTo(swipeGroup["2"].length)
+      swipeRef.value.swipeTo(swipeGroup["2"]?.length)
       break;
     case "9":
-      swipeRef.value.swipeTo(swipeGroup["2"].length + swipeGroup["4"].length)
+      swipeRef.value.swipeTo(swipeGroup["2"]?.length + swipeGroup["4"]?.length)
       break;
   }
 }

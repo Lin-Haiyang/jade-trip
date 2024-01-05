@@ -2,6 +2,7 @@
   <div class="detail top-page" ref="detailRef">
     <tab-control
       v-if="showTabControl"
+      ref="tabControlRef"
       class="tabs"
       :titles="names"
       @tabItemClick="tabClick"
@@ -31,7 +32,7 @@
 
 <script setup>
 import { getDetailInfos } from "@/services";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import TabControl from "@/components/tab-control/tab-control.vue"
@@ -51,7 +52,7 @@ const router = useRouter();
 const houseId = route.params.id
 
 const detailInfos = ref({})
-const mainPart = computed(() => detailInfos.value.mainPart)
+const mainPart = computed(() => detailInfos.value?.mainPart)
 getDetailInfos(houseId).then(res => {
   detailInfos.value = res.data;
 })
@@ -71,8 +72,10 @@ const showTabControl = computed(() => {
 const sectionEls = ref({})
 
 const getSectionRef = (value) => {
-  const name = value.$el.getAttribute("name")
-  sectionEls.value[name] = value.$el
+  if (value) {
+    const name = value.$el.getAttribute("name")
+    sectionEls.value[name] = value.$el
+  }
 }
 
 // 顶部导航名称
@@ -80,28 +83,51 @@ const names = computed(() => {
   return Object.keys(sectionEls.value)
 })
 
+let isClickTab = false;
+let currentDistance = 0;
 const tabClick = (index) => {
+  isClickTab = true;
   const key = Object.keys(sectionEls.value)[index]
   const el = sectionEls.value[key]
-  let instance = el.offsetTop
+  let distance = el.offsetTop
   if (index === 0) {
-    instance = 300
+    distance = 300
   } else {
-    instance = instance - 44
+    distance = distance - 44
   }
-
+  currentDistance = distance;
   detailRef.value.scrollTo({
-    top: instance,
+    top: distance,
     behavior: "smooth"
   })
 }
+const tabControlRef = ref();
+watch(scrollTop, (newValue) => {
+  if (currentDistance === newValue) {
+    isClickTab = false
+  }
+
+  if (isClickTab) {
+    return
+  }
+  const els = Object.values(sectionEls.value)
+  const values = els.map(item => item.offsetTop)
+  let activeIndex = values.length - 1
+  for (let i = 0; i < values.length; i++) {
+      if (values[i] > newValue + 44) {
+        activeIndex = i - 1
+        break
+      }
+  }
+  tabControlRef.value?.setCurrentIndex(activeIndex)
+})
 
 </script>
 
 <style lang="less" scoped>
 .tabs {
   position: fixed;
-  z-index: 9;
+  z-index: 100;
   left: 0;
   right: 0;
   top: 0;
