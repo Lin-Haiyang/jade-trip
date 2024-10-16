@@ -1,0 +1,50 @@
+on:
+  push:
+    branches:
+      - feature-analysis-test
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    name: Run Code Analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Install dependencies
+        run: npm install
+      - name: 🚀 ------- Run analysis -------
+        run: npm run analysis
+        continue-on-error: true
+      - name: List analysis output
+        run: ls -la docs
+      - name: Upload analysis artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: analysis-report
+          path: docs
+
+  deploy:
+    needs: analysis
+    runs-on: ubuntu-latest
+    name: Deploy to GitHub Pages
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Download analysis artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: analysis-report
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          publish_dir: ./docs
