@@ -36,7 +36,7 @@ module.exports = {
     // 可选，自定义分析插件，默认为空数组，一般不需要配置
     analysisPlugins: [],
     // 可选，需要标记的黑名单api，默认为空数组
-    blackList: ['app.localStorage.set', 'location.href'],
+    blackList: ['app.localStorage.set', 'location.href', 'window.location.href'],
     // 可选，要分析的BrowserApi，默认为空数组
     browserApis: ['window', 'document', 'history', 'location'],
     // 可选，生成代码分析报告的目录，默认为'report',不支持多级目录配置

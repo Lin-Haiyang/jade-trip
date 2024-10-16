@@ -1,1 +1,1 @@
-console.log(location.href);
+console.log(window.location.href);
