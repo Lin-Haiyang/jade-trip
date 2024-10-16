@@ -28,7 +28,7 @@ module.exports = {
             // 可选, 文件路径格式化函数,默认为null,一般不需要配置
             format: null,
             // 可选，项目gitlab/github url的访问前缀，用于点击行信息跳转，不填则不跳转
-            httpRepo: `https://git.baijia.com/gaotu-fe/gaotu-btech-fe/cronus/-/tree/${getGitBranch()}/`
+            httpRepo: `https://github.com/Lin-Haiyang/jade-trip/tree/${getGitBranch()}/`
         }
     ],
     // 必须，要分析的目标依赖名
