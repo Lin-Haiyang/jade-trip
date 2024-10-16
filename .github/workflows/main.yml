@@ -27,23 +27,13 @@ jobs:
           path: docs
 
   deploy:
-      runs-on: ubuntu-latest
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
       needs: analysis
-      name: Deploy GitHub Pages
+      runs-on: ubuntu-latest
+      name: Deploy
       steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Download analysis artifacts
-          uses: actions/download-artifact@v3
-          with:
-            name: analysis-report
-            path: docs
-        - name: Create public directory
-          run: mkdir -p public
-        - name: Move analysis report to public
-          run: mv docs/* public
-        - name: 🚀 ------- Deploy to GitHub Pages -------
-          uses: peaceiris/actions-gh-pages@v3
-          with:
-            github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-            publish_dir: public
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v2
