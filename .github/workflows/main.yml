@@ -18,8 +18,8 @@ jobs:
           node-version: "14"
       - name: Install dependencies
         run: npm install
-      - name: Run analysis
-        run: 🚀 -------npm run analysis-------
+      - name: 🚀 ------- Run analysis -------
+        run: npm run analysis
       - name: Upload analysis artifacts
         uses: actions/upload-artifact@v3
         with:
