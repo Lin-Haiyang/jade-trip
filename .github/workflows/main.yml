@@ -1,9 +1,11 @@
-name: CI Pipeline
-
 on:
   push:
     branches:
       - feature-analysis-test
+
+permissions:
+  id-token: write
+  contents: write
 
 jobs:
   analysis:
@@ -27,13 +29,13 @@ jobs:
           path: docs
 
   deploy:
-      environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-      needs: analysis
-      runs-on: ubuntu-latest
-      name: Deploy
-      steps:
-        - name: Deploy to GitHub Pages
-          id: deployment
-          uses: actions/deploy-pages@v2
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: analysis
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
