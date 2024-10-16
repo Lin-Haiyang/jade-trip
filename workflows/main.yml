@@ -1,0 +1,28 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - feature-analysis-test
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    name: Run Code Analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Install dependencies
+        run: npm install
+      - name: Run analysis
+        run: npm run analysis
+      - name: Upload analysis artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: analysis-report
+          path: docs
+
